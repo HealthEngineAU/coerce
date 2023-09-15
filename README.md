@@ -1,2 +1,41 @@
-# laravel-config-env
-Get config/env in Laravel with enforced value types
+# Coerce
+
+## About
+
+Coerce `mixed` value into a desired scalar type or die trying.
+
+## Install
+
+```shell
+composer require healthengine/coerce
+```
+
+## Usage
+
+```php
+<?php
+
+use Healthengine\Coerce\Coerce;
+use Healthengine\Coerce\CouldNotCoerceException;
+use stdClass;
+
+Coerce::toBool(1); // true
+
+Coerce::toBoolOrNull(null) // null
+
+Coerce::toInt('1'); // 1
+
+Coerce::toInt(new stdClass()); // CouldNotCoerceException
+
+Coerce::toIntOrNull(null) // null
+
+Coerce::toIntOrNull(new stdClass()); // CouldNotCoerceException
+
+Coerce::toString(1); // '1'
+
+Coerce::toString([]) // CouldNotCoerceException
+
+Coerce::toStringOrNull(null); // null
+
+Coerce::toStringOrNull([]) // CouldNotCoerceException
+```
