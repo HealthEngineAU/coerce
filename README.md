@@ -15,6 +15,8 @@ composer require healthengine/coerce
 ```php
 <?php
 
+declare(strict_types=1);
+
 use Healthengine\Coerce\Coerce;
 use Healthengine\Coerce\CouldNotCoerceException;
 use stdClass;

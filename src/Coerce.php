@@ -8,16 +8,27 @@ class Coerce
 {
     /**
      * @param mixed $value
+     * @param string $type
+     * @return void
+     * @throws CouldNotCoerceException
+     */
+    private static function setType(mixed &$value, string $type): void
+    {
+        $result = settype($value, $type);
+
+        if (!$result) {
+            throw CouldNotCoerceException::valueToType($value, $type);
+        }
+    }
+
+    /**
+     * @param mixed $value
      * @return bool
      * @throws CouldNotCoerceException
      */
     public static function toBool(mixed $value): bool
     {
-        $result = settype($value, 'bool');
-
-        if (!$result) {
-            throw new CouldNotCoerceException('Could not coerce ' . gettype($value) . ' to bool');
-        }
+        self::setType($value, 'bool');
 
         assert(is_bool($value));
 
@@ -35,11 +46,7 @@ class Coerce
             return null;
         }
 
-        $result = settype($value, 'bool');
-
-        if (!$result) {
-            throw new CouldNotCoerceException('Could not coerce ' . gettype($value) . ' to bool');
-        }
+        self::setType($value, 'bool');
 
         assert(is_bool($value));
 
@@ -54,14 +61,10 @@ class Coerce
     public static function toInt(mixed $value): int
     {
         if (is_object($value)) {
-            throw new CouldNotCoerceException('Could not coerce ' . gettype($value) . ' to int');
+            throw CouldNotCoerceException::valueToType($value, 'int');
         }
 
-        $result = settype($value, 'int');
-
-        if (!$result) {
-            throw new CouldNotCoerceException('Could not coerce ' . gettype($value) . ' to int');
-        }
+        self::setType($value, 'int');
 
         assert(is_int($value));
 
@@ -80,14 +83,10 @@ class Coerce
         }
 
         if (is_object($value)) {
-            throw new CouldNotCoerceException('Could not coerce ' . gettype($value) . ' to int');
+            throw CouldNotCoerceException::valueToType($value, 'int');
         }
 
-        $result = settype($value, 'int');
-
-        if (!$result) {
-            throw new CouldNotCoerceException('Could not coerce ' . gettype($value) . ' to int');
-        }
+        self::setType($value, 'int');
 
         assert(is_int($value));
 
@@ -102,14 +101,10 @@ class Coerce
     public static function toString(mixed $value): string
     {
         if (is_array($value)) {
-            throw new CouldNotCoerceException('Could not coerce ' . gettype($value) . ' to string');
+            throw CouldNotCoerceException::valueToType($value, 'string');
         }
 
-        $result = settype($value, 'string');
-
-        if (!$result) {
-            throw new CouldNotCoerceException('Could not coerce ' . gettype($value) . ' to string');
-        }
+        self::setType($value, 'string');
 
         assert(is_string($value));
 
@@ -128,14 +123,10 @@ class Coerce
         }
 
         if (is_array($value)) {
-            throw new CouldNotCoerceException('Could not coerce ' . gettype($value) . ' to string');
+            throw CouldNotCoerceException::valueToType($value, 'string');
         }
 
-        $result = settype($value, 'string');
-
-        if (!$result) {
-            throw new CouldNotCoerceException('Could not coerce ' . gettype($value) . ' to string');
-        }
+        self::setType($value, 'string');
 
         assert(is_string($value));
 
