@@ -11,6 +11,7 @@ use stdClass;
 
 /**
  * @covers \Healthengine\Coerce\Coerce
+ * @covers \Healthengine\Coerce\CouldNotCoerceException
  */
 class CoerceTest extends TestCase
 {
