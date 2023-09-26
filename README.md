@@ -33,6 +33,10 @@ Coerce::toIntOrNull(null) // null
 
 Coerce::toIntOrNull(new stdClass()); // CouldNotCoerceException
 
+Coerce::toNonEmptyString('123'); // '123'
+
+Coerce::toNonEmptyString(''); // CouldNotCoerceException
+
 Coerce::toString(1); // '1'
 
 Coerce::toString([]) // CouldNotCoerceException
