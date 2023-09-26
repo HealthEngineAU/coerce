@@ -46,11 +46,7 @@ class Coerce
             return null;
         }
 
-        self::setType($value, 'bool');
-
-        assert(is_bool($value));
-
-        return $value;
+        return self::toBool($value);
     }
 
     /**
@@ -82,15 +78,24 @@ class Coerce
             return null;
         }
 
-        if (is_object($value)) {
-            throw CouldNotCoerceException::valueToType($value, 'int');
+        return self::toInt($value);
+    }
+
+    /**
+     * @param mixed $value
+     * @phpstan-return non-empty-string
+     * @return string
+     * @throws CouldNotCoerceException
+     */
+    public static function toNonEmptyString(mixed $value): string
+    {
+        $coerced = self::toString($value);
+
+        if (strlen($coerced) === 0) {
+            throw CouldNotCoerceException::valueToType($value, 'non-empty-string');
         }
 
-        self::setType($value, 'int');
-
-        assert(is_int($value));
-
-        return $value;
+        return $coerced;
     }
 
     /**
@@ -100,7 +105,7 @@ class Coerce
      */
     public static function toString(mixed $value): string
     {
-        if (is_array($value)) {
+        if (is_array($value) || is_object($value)) {
             throw CouldNotCoerceException::valueToType($value, 'string');
         }
 
@@ -122,14 +127,6 @@ class Coerce
             return null;
         }
 
-        if (is_array($value)) {
-            throw CouldNotCoerceException::valueToType($value, 'string');
-        }
-
-        self::setType($value, 'string');
-
-        assert(is_string($value));
-
-        return $value;
+        return self::toString($value);
     }
 }

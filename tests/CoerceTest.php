@@ -160,6 +160,52 @@ class CoerceTest extends TestCase
         $this->assertSame($expected, Coerce::toIntOrNull($value));
     }
 
+    public static function toNonEmptyStringSucceedsProvider(): array
+    {
+        return [
+            ['abc', 'abc'],
+            [0, '0'],
+            [1, '1'],
+            [true, '1'],
+        ];
+    }
+
+    /**
+     * @dataProvider toNonEmptyStringSucceedsProvider
+     * @param mixed $value
+     * @param string $expected
+     * @return void
+     * @throws CouldNotCoerceException
+     */
+    public function testToNonEmptyStringSucceeds(mixed $value, string $expected): void
+    {
+        $this->assertSame($expected, Coerce::toNonEmptyString($value));
+    }
+
+    public static function toNonEmptyStringFailsProvider(): array
+    {
+        return [
+            [[]],
+            [new stdClass()],
+            [''],
+            [false],
+            [null],
+        ];
+    }
+
+    /**
+     * @dataProvider toNonEmptyStringFailsProvider
+     * @param mixed $value
+     * @return void
+     * @throws CouldNotCoerceException
+     */
+    public function testToNonEmptyStringFails(mixed $value): void
+    {
+        $this->expectException(CouldNotCoerceException::class);
+
+        Coerce::toNonEmptyString($value);
+    }
+
     public static function toStringSucceedsProvider(): array
     {
         return [
@@ -214,6 +260,7 @@ class CoerceTest extends TestCase
     {
         return [
             [[]],
+            [new stdClass()],
         ];
     }
 
